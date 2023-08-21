@@ -4,137 +4,356 @@
          <meta charset="UTF-8">
          <title>タスク管理アプリケーション</title>
 <!-- <link th:href="@{/home.css}" rel="stylesheet">&ndash;&gt;-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    </head>
+<!--        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">-->
+<!--        <link rel="stylesheet" href="css/bootstrap.min.css">-->
+<!--        <script src="js/jquery-3.5.1.min.js"></script>-->
+<!--        <script src="js/bootstrap.min.js"></script>-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bootstrap Site</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+    </head></head>
     <body>
         <h1>タスク管理アプリケーション</h1>
-        <div class="task_form">
-            <h2>タスクの登録</h2>
-
-            <form action="/add">
-                <label>タスク</label>
-                <input name="task" type="text" />
-                <label>期限</label>
-                <input name="deadline" type="date" />
-                <input type="submit" value="登録" />
-            </form>
+        <!--    <form action="/add">-->
+        <label class="form-label">タスク</label>
+        <input name="task" class="form-control"　type="text" id="new_task" />
+        <label class="form-label">期限</label>
+        <input class="form-control" name="deadline" type="date" id="new_deadline"/>
+        <input type="submit" value="登録" onclick="restAdd();" />
+        <!--    </form>-->
         </div>
-        <div class="tasklist">
-            <div class="">
+        <div>
             <h2>現在のタスク一覧</h2>
-<!--            <table border ="1" >-->
-                <table class="table table-striped">
+            <table class="table table-striped">
                 <thead>
-                <tr><th class="hidden">ID</th>
+                <tr>
+                    <th class="hidden">ID</th>
                     <th>タスク</th>
-                    <th width="150px">期限</th>
-                    <th width="100px">状態</th>
-                    <th></th>
+                    <th>期限</th>
+                    <th>状態</th>
+                    <th>更新<!-- 削除ボタン --></th>
+                    <th>削除<!-- 削除ボタン --></th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="task_list_body">
                 <tr th:each="task : ${taskList}">
-                    <td class="hidden" th:text="${task.id}"></td>
+                    <td th:text="${task.id}" class="hidden"></td>
                     <td th:text="${task.task}"></td>
-                    <td width="100px" th:text="${task.deadline}"></td>
-                    <td width="50px" th:text="${task.done}?'完了':'未完了'"></td>
-                    <td width="50px">
-<!--                <button type="submit" id = "update_button" onclick = "let row =&ndash;&gt;-->
-                    <button type="submit" id="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog">更新</button>
+                    <td th:text="${task.deadline}"></td>
+                    <td th:text="${task.done} ? '完' : '未'"></td>
+                    <td>
+                        <button type="submit" name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新</button>
                     </td>
-                    <td width="50px">
-                        <form action = "/delete">
-                            <button type = "submit" id="delete_button">削除</button>-->
-                            <input type="hidden" name="id" th:value="${task.id}" />-->
+                    <td>
+                        <form action="/delete">
+                            <button type="submit" name="delete_button" class="btn btn-secondary">削除</button>
+                            <input type="hidden" name="id" th:value="${task.id}" />
                         </form>
                     </td>
                 </tr>
-        <div id="updatedialog" class="modal fade" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form action="/update">
-                           <div class="modal-header">
-                <h2>タスクの更新</h2>
-                <form action="/update">
-                    <input id="update_id" name="id" type="hidden" />
-                    <label>タスク</label>
-                    <input id="update_task" name="task" type="text" />
-                    <label>期限</label>
-                    <input id="update_deadline" name="deadline" type="date" />
-                    <label>状態</label>
-                    <select id="update_status" name="done" >
-                        <option value ="false">未完了</option>
-                        <option value ="true">完了</option>
-                    </select>
-                    <div>
-                    <div class="modal-footer" >
-                        <button type = "submit">更新</button>
-                        <button type = "reset"
-                                onclick = "getElementById('updateDialog').style.display='none';">
-                            キャンセル</button>
-                    </div>
-                </form>
-            </div>
+                </tbody>
+            </table>
         </div>
-      </div>
-
-<!--        <div id="updatedialog" class="modal fade" tabindex="-1">-->
-<!--            <div class="modal-dialog">-->
-<!--                <div class="modal-content">-->
-<!--                    <form action="/update">-->
-<!--                        <div class="modal-header">-->
-<!--                            <h2>タスクの更新</h2>-->
-<!--                        </div>-->
-<!--                        <div class="modal-body">-->
-<!--                            <input id="update_id" name="id" type="hidden"/>-->
-<!--                            <label for="update_task">タスク</label>-->
-<!--                            <input id="update_task" class="form-control" name="task" type="text"/>-->
-<!--                            <label for="update_deadline">期限</label>-->
-<!--                            <input id="update_deadline" class="form-control" name="deadline" type="date"/>-->
-<!--                            <label for="update_status">状態</label>-->
-<!--                            <select id="update_status" class="form-select" name="done">-->
-<!--                                <option value="false">未完了</option>-->
-<!--                                <option value="true">完了</option>-->
-<!--                            </select>-->
-<!--                        </div>-->
-<!--                        <div class="modal-footer">&ndash;&gt;-->
-<!--                            <button type="submit" class="btn btn-primary">更新</button>&#45;&#45;&lt;!&ndash;                            <button type="reset" data-bs-dismiss="modal" class="btn btn-secondary">キャンセル</button>&ndash;&gt;-->
-<!--                        </div>&ndash;&gt;-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div id="updatedialog" class="modal fade" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
-                    </div>
+                    <form action="/update">
+                        <div class="modal-header">
+                            <h2>タスクの更新</h2>
+                        </div>
+                        <div class="modal-body">
+                            <label for="update_id">ID</label>
+                            <input id="update_id" name="id" type="hidden"/><
+                            <label for="update_task">タスク</label>
+                            <input id="update_task" class="form-control" name="task" type="text"/>
+                            <label for="update_deadline">期限</label>
+                            <input id="update_deadline" class="form-control" name="deadline" type="date"/>
+                            <label for="update_status">状態</label>
+                            <select id="update_status" class="form-select" name="done">
+                                <option value="false">未完了</option>
+                                <option value="true">完了</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">更新</button>
+                            <button type="reset" data-bs-dismiss="modal" class="btn btn-secondary">キャンセル</button>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
+         </div>
+
+     <script language="JavaScript">
+      function copyToDialog(row)
+        document.getElementById('update_id').value = row.cells[0].firstChild.data;
+        document.getElementById('update_task').value = row.cells[1].firstChild.data;
+        document.getElementById('update_deadline').value = row.cells[2].firstChild.data;
+        document.getElementById('update_status').selectedIndex=(row.cells[3].firstChild.data=='完了')?1:0;
+<!--     var dialog = document.getElementById('updatedialog');&ndash;&gt;&ndash;&gt;-->
+<!--        dialog.style.left= ((window.innerWidth - 500) / 2) + 'px';-->
+<!--        dialog.style.display='block';-->
+
+        const toastTrigger = document.getElementById('liveToastBtn')
+        const toastLiveExample = document.getElementById('liveToast')
+        }
+        if (toastTrigger) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample)
+        toastTrigger.addEventListener('click', () => {
+        toastBootstrap.show()
+        })
+        }
+</script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
-    </body>
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+        <script>
+<!--        $(document).ready(function() {-->
+<!--　　       alert("Hello world");-->
+<!--　　    };-->
+<!--&lt;!&ndash;1.一覧に表示済みのタスクと期限を取得&ndash;&gt;-->
+<!--        $("#task_list_body > tr").each(function(){-->
+<!--            //現在ここでタスク一覧の行ごとの処理が可能になった。-->
+<!--            var td = $(this).children();-->
+<!--            alert($(td[2]).text());-->
+<!--             //取得した日付を今日の日付と比較してtd[2]の日付が今日より前であればトーストを表示する処理をここに入れる-->
+<!--        });-->
 
-        </tbody>
-      </table>
+<!--&lt;!&ndash;2.期限が今日の日付より前であればトーストを表示する処理をここに入れる;&ndash;&gt;-->
+<!--&lt;!&ndash;    });&ndash;&gt;-->
+       function restAdd(){
+        var new_task = $("#new_task").val();
+        var new_deadline = $("#new_deadline").val();
+        $.ajax({
+          type: "POST",
+          url: "/rest_add",
+          data: { task: new_task, deadline: new_deadline }
+        }).done(function( msg ) {
+          var str = JSON.stringify(msg);
+          $("#task_list_body").empty();
+          for(var i=0; i<msg.length; i++){
+            var id = msg[i].id;
+            var task = msg[i].task;
+            var deadline = msg[i].deadline;
+            var done = msg[i].done;
+
+            $obj = $("#table_row").clone();  //追加する行のデータをコピー
+            //ここにid,task,deadline,doneのセット処理を記述
+            $obj.find("[name=id]").text(id);
+            $obj.find("[name=task]").text(task);
+            $obj.find("[name=deadline]").text(deadline);
+            $obj.find("[name=done]").text(done?'完':'未');
+            $("#task_list_body").append($obj); //テーブルに行を追加
+          }
+        });
+</script>
+       <div style="display:hidden">
+            <table>
+                <tbody>
+                <tr id="table_row">
+                   <td name="id" class="hidden"></td>
+                    <td name="task"></td>
+                    <td name="deadline"></td>
+                    <td name="done"></td>
+                    <td>
+                        <button type="submit" name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新</button>
+                    </td>
+                    <td>
+                        <form action="/delete">
+                            <button type="submit" name="delete_button" class="btn btn-secondary">削除</button>
+                            <input type="hidden" name="id" />
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+<!--        <body>-->
+<!--        <div class="container">-->
+<!--            <h1>トーストの練習</h1>-->
+<!--            &lt;!&ndash; トーストを表示するボタン &ndash;&gt;-->
+<!--            <button class="btn btn-primary" onclick="showToast()">トーストを表示</button>-->
+<!--            &lt;!&ndash; トーストの雛形をつくる &ndash;&gt;-->
+<!--            <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">-->
+<!--                <div class="toast-header">-->
+<!--                    <strong class="me-auto">タイトル</strong>-->
+<!--                    <small>サブタイトル</small>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="閉じる"></button>-->
+<!--                </div>-->
+<!--                <div class="toast-body">-->
+<!--                    本文です。。。-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <script>-->
+<!--    // toastクラスがついている要素にBootStrapのトーストを適用する-->
+<!--    var toastElList = [].slice.call(document.querySelectorAll(".toast"));-->
+<!--    var toastList = toastElList.map(function (toastEl) {-->
+<!--        return new bootstrap.Toast(toastEl, {-->
+<!--            // オプション-->
+<!--            delay: 10000,-->
+<!--        });-->
+<!--    });-->
+<!--    // ボタンをクリックしたときに実行される関数-->
+<!--    function showToast() {-->
+<!--        // トーストを表示する-->
+<!--        toastList[0].show();-->
+<!--    }-->
+<!--        </script>-->
+<!--    </body>-->
+<!--        <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button>-->
+
+<!--        <div class="toast-container position-fixed bottom-0 end-0 p-3">-->
+<!--            <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">-->
+<!--                <div class="toast-header">-->
+<!--                    <img src="..." class="rounded me-2" alt="...">-->
+<!--                    <strong class="me-auto">Bootstrap</strong>-->
+<!--                    <small>11 mins ago</small>-->
+<!--                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>-->
+<!--                </div>-->
+<!--                <div class="toast-body">-->
+<!--                    Hello, world! This is a toast message.-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+  </body>
 </html>
+
+<!--&lt;!&ndash; <div class="task_form">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;           <h2>タスクの登録</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;            <form action="/add">&ndash;&gt;-->
+<!--                <label>タスク</label>-->
+<!--                <input name="task" type="text" />-->
+<!--                <label>期限</label>-->
+<!--                <input name="deadline" type="date" />-->
+<!--                <input type="submit" value="登録" />-->
+<!--            </form>-->
+<!--        </div>-->
+<!--        <div class="tasklist">-->
+<!--            <div class="">-->
+<!--            <h2>現在のタスク一覧</h2>-->
+<!--&lt;!&ndash;            <table border ="1" >&ndash;&gt;-->
+<!--                <table class="table table-striped">-->
+<!--                <thead>-->
+<!--                <tr><th class="hidden">ID</th>-->
+<!--                    <th>タスク</th>-->
+<!--                    <th width="150px">期限</th>-->
+<!--                    <th width="100px">状態</th>-->
+<!--                    <th></th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody-->
+<!--                >-->
+<!--                <tr th:each="task : ${taskList}">-->
+<!--                    <td class="hidden" th:text="${task.id}"></td>-->
+<!--                    <td th:text="${task.task}"></td>-->
+<!--                    <td width="100px" th:text="${task.deadline}"></td>-->
+<!--                    <td width="50px" th:text="${task.done}?'完了':'未完了'"></td>-->
+<!--                    <td width="50px">-->
+<!--&lt;!&ndash;                <button type="submit" id = "update_button" onclick = "let row =&ndash;&gt;&ndash;&gt;-->
+<!--                    <button type="submit" id="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog">更新</button>-->
+<!--                    </td>-->
+<!--                    <td width="50px">-->
+<!--                        <form action = "/delete">-->
+<!--                            <button type = "submit" id="delete_button">削除</button>&ndash;&gt;-->
+<!--                            <input type="hidden" name="id" th:value="${task.id}" />&ndash;&gt;-->
+<!--                        </form>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--        <div id="updatedialog" class="modal fade" tabindex="-1">-->
+<!--                <div class="modal-dialog">-->
+<!--                    <div class="modal-content">-->
+<!--                        <form action="/update">-->
+<!--                           <div class="modal-header">-->
+<!--                <h2>タスクの更新</h2>-->
+<!--                <form action="/update">-->
+<!--                    <input id="update_id" name="id" type="hidden" />-->
+<!--                    <label>タスク</label>-->
+<!--                    <input id="update_task" name="task" type="text" />-->
+<!--                    <label>期限</label>-->
+<!--                    <input id="update_deadline" name="deadline" type="date" />-->
+<!--                    <label>状態</label>-->
+<!--                    <select id="update_status" name="done" >-->
+<!--                        <option value ="false">未完了</option>-->
+<!--                        <option value ="true">完了</option>-->
+<!--                    </select>-->
+<!--                    <div>-->
+<!--                    <div class="modal-footer" >-->
+<!--                        <button type = "submit">更新</button>-->
+<!--                        <button type = "reset"-->
+<!--                                onclick = "getElementById('updateDialog').style.display='none';">-->
+<!--                            キャンセル</button>-->
+<!--                    </div>-->
+<!--                </form>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--&lt;!&ndash;        <div id="updatedialog" class="modal fade" tabindex="-1">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="modal-dialog">&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="modal-content">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <form action="/update">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div class="modal-header">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <h2>タスクの更新</h2>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div class="modal-body">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input id="update_id" name="id" type="hidden"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <label for="update_task">タスク</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input id="update_task" class="form-control" name="task" type="text"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <label for="update_deadline">期限</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input id="update_deadline" class="form-control" name="deadline" type="date"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <label for="update_status">状態</label>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <select id="update_status" class="form-select" name="done">&ndash;&gt;-->
+<!--&lt;!&ndash;                                <option value="false">未完了</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <option value="true">完了</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                            </select>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <div class="modal-footer">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                            <button type="submit" class="btn btn-primary">更新</button>&#45;&#45;&lt;!&ndash;                            <button type="reset" data-bs-dismiss="modal" class="btn btn-secondary">キャンセル</button>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;&ndash;&gt;-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--        &lt;!&ndash; Modal &ndash;&gt;-->
+<!--        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>-->
+<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        ...-->
+<!--                    </div>-->
+<!--                    <div class="modal-footer">-->
+<!--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>-->
+<!--                        <button type="button" class="btn btn-primary">Save changes</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>-->
+<!--        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>-->
+<!--    </body>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>-->
+<!--    <script>-->
+<!--　　   $(document).ready(function() {　-->
+<!--        alert("Hello world");-->
+<!--    });-->
+<!--</script>-->
+<!--        </tbody>-->
+<!--      </table>-->
+<!--</html> _>-->
