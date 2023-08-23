@@ -26,12 +26,12 @@ public class HomeController {
         return "hello";
     }
 
-    record TaskItem(String id, String task, String deadline, boolean done) {
+    record TaskItem(String id, String task, String deadline, String memo, boolean done) {
     }
-    private List<TaskItem> taskItems = new ArrayList<>();
+    //private List<TaskItem> taskItems = new ArrayList<>();
     @GetMapping("/list")
     String listItems(Model model){
-        List<TaskItem> taskItems = dao.findAll();
+        List<TaskItem> taskItems = this.dao.findAll();
         model.addAttribute("taskList",taskItems);
         return "home";
     }
@@ -39,22 +39,22 @@ public class HomeController {
     String addItem(@RequestParam("task")String task,
                    @RequestParam("deadline")String deadline){
         String id = UUID.randomUUID().toString().substring(0,8);
-        TaskItem item = new TaskItem(id,task,deadline,false);
-        dao.add(item);
-
+        TaskItem item = new TaskItem(id,task,deadline,"",false);
+        this.dao.add(item);
         return "redirect:/list";
     }
     @GetMapping("/delete")
-    String deleteItem(@RequestParam("id")String id){
-        dao.delete(id);
+    String delete(@RequestParam("id")String id){
+        this.dao.delete(id);
         return "redirect:/list"; }
     @GetMapping("/update")
     String updateItem(@RequestParam("id")String id,
                       @RequestParam("task")String task,
                       @RequestParam("deadline")String deadline,
+                      @RequestParam("memo")String memo,
                       @RequestParam("done")boolean done){
-        TaskItem taskItem = new TaskItem(id, task, deadline, done);
-        dao.update(taskItem);
+        TaskItem item = new TaskItem(id, task, deadline, memo, done);
+        int i = this.dao.update(item);
         return "redirect:/list";
     }
 }

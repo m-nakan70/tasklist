@@ -14,18 +14,20 @@ import java.util.Objects;
 
 @Service
 public class TaskListDao {
+    private final static String TABLE_NAME = "tasklist";
     private final JdbcTemplate jdbcTemplate;
     @Autowired
     TaskListDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
-    public  void add(TaskItem taskItem) {
-        SqlParameterSource param = new BeanPropertySqlParameterSource(taskItem);
-        SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("tasklist");
-        insert.execute(param);
+    public int add(HomeController.TaskItem item) {
+        SqlParameterSource param = new BeanPropertySqlParameterSource(item);
+        SimpleJdbcInsert insert = new SimpleJdbcInsert(this.jdbcTemplate).withTableName(TABLE_NAME);
+        return insert.execute(param);
     }
+    //ここまで更新
     public List<TaskItem>findAll(){
-        String query = "SELECT * FROM tasklist";
+        String query = "SELECT * FROM " + TABLE_NAME;
 
 
 
@@ -35,6 +37,7 @@ public class TaskListDao {
                         row.get("id").toString(),
                         row.get("task").toString(),
                         row.get("deadline").toString(),
+                        row.get("memo").toString(),
                         (Boolean)row.get("done")))
                 .toList();
         return taskItems;
@@ -45,8 +48,9 @@ public class TaskListDao {
     }
     public int update(TaskItem taskItem){
         int number = jdbcTemplate.update(
-                "UPDATE tasklist SET task = ?, deadline = ?, done = ? WHERE id = ?",
+                "UPDATE tasklist SET task = ?, deadline = ?, ,memo= ?,done = ? WHERE id = ?",
                 taskItem.task(),
+                taskItem.deadline(),
                 taskItem.deadline(),
                 taskItem.done(),
                 taskItem.id());
