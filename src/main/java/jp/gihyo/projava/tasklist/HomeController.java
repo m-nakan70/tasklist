@@ -31,7 +31,7 @@ public class HomeController {
     //private List<TaskItem> taskItems = new ArrayList<>();
     @GetMapping("/list")
     String listItems(Model model){
-        List<TaskItem> taskItems = this.dao.findAll();
+        List<TaskItem> taskItems = dao.findAll();
         model.addAttribute("taskList",taskItems);
         return "home";
     }
@@ -46,13 +46,14 @@ public class HomeController {
     @GetMapping("/delete")
     String delete(@RequestParam("id")String id){
         this.dao.delete(id);
-        return "redirect:/list"; }
+        return "redirect:/list";
+    }
     @GetMapping("/update")
-    String updateItem(@RequestParam("id")String id,
-                      @RequestParam("task")String task,
-                      @RequestParam("deadline")String deadline,
-                      @RequestParam("memo")String memo,
-                      @RequestParam("done")boolean done){
+    String update(@RequestParam("id")String id,
+                  @RequestParam("task")String task,
+                  @RequestParam("deadline")String deadline,
+                  @RequestParam("memo")String memo,
+                  @RequestParam("done")boolean done){
         TaskItem item = new TaskItem(id, task, deadline, memo, done);
         int i = this.dao.update(item);
         return "redirect:/list";
