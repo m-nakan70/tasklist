@@ -10,7 +10,7 @@
     <h1>タスク管理アプリケーション</h1>
     <div class="task_form">
         <h2>タスクの登録</h2>
-        <!--    <form action="/add">-->
+<!--      <form action="/add">-->
         <label class="form-label">タスク</label>
         <input name="task" class="form-control"　type="text" id="new_task" />
         <label class="form-label">期限</label>
@@ -18,7 +18,7 @@
         <label class="form-label">メモ</label>
         <input name="memo" class="form-control"　type="text" id="new_memo" />
         <input type="submit" value="登録" onclick="restAdd();" />
-        <!--    </form>-->
+<!--      </form>-->
     </div>
 
 <!--        <h1>タスク管理アプリケーション</h1>-->
@@ -76,7 +76,7 @@
                         <td th:text="${task.memo}"></td>
                         <td th:text="${task.done} ? '完' : '未'"></td>
                         <td>
-                            <button type="submit" name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="col btn btn-primary btn-sm">更新</button>
+                            <button type="submit" name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新</button>
                         </td>
 
 <!--                <tbody>-->
@@ -106,35 +106,36 @@
                 </tbody>
             </table>
     </div>
-       <div id="updatedialog" class="modal fade" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                     <form action="/update">
-                            <div class="modal-header">
-                                <h2>タスクの更新</h2>
-                            </div>
-                            <div class="modal-body">
-                                <input id="update_id" name="id" type="hidden"/>
-                                <label for="update_task">タスク</label>
-                                <input id="update_task" class="form-control" name="task" type="text"/>
-                                <label for="update_deadline">期限</label>
-                                <input id="update_deadline" class="form-control" name="deadline" type="date"/>
-                                <label for="update_memo">メモ</label>
-                                <input id="update_memo" class="form-control" name="memo" type="text"/>
-                                <label for="update_status">状態</label>
-                                <select id="update_status" class="form-select" name="done">
+    <div id="updatedialog" class="modal fade" tabindex="-1">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <form action="/update">
+                    <div class="modal-header">
+                        <h2>タスクの更新</h2>
+                    </div>
+                    <div class="modal-body">
+                         <input id="update_id" name="id" type="hidden"/>
+                         <label for="update_task">タスク</label>
+                         <input id="update_task" class="form-control" name="task" type="text"/>
+                         <label for="update_deadline">期限</label>
+                         <input id="update_deadline" class="form-control" name="deadline" type="date"/>
+                         <label for="update_memo">メモ</label>
+                         <input id="update_memo" class="form-control" name="memo" type="text"/>
+                         <label for="update_status">状態</label>
+                         <select id="update_status" class="form-select" name="done">
                                     <option value="false">未完了</option>
                                     <option value="true">完了</option>
-                                </select>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">更新</button>
-                                <button type="reset" data-bs-dismiss="modal" class="btn btn-secondary">キャンセル</button>
-                           </div>
-                     </form>
-                </div>
-            </div>
-       </div>
+                         </select>
+                    </div>
+                    <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary">更新</button>
+<!--                                <input type="submit" value="更新" onclick="copyToDialog(row)" />-->
+                          <button type="reset" data-bs-dismiss="modal" class="btn btn-secondary">キャンセル</button>
+                    </div>
+                 </form>
+             </div>
+         </div>
+    </div>
 
 <!--                <div id="updatedialog" class="modal fade" tabindex="-1">-->
 <!--                    <div class="modal-dialog">-->
@@ -227,12 +228,11 @@
                              <button type="submit" name="delete_button" class="col btn btn-secondary btn-sm" hidden>削除</button>
                              <input type="hidden" name="id" />
                          </form>
-                      </td>
                   </tr>
                </tbody>
            </table>
        </div>
-</body>
+    </body>
 </html>
 <!--        <div id="updatedialog" class="modal fade" tabindex="-1">-->
 <!--                <div class="modal-dialog">-->

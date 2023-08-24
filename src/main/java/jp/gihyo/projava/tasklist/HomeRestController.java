@@ -20,7 +20,8 @@ public class HomeRestController {//データを返す方式、スマホゲーム
     }
     @PostMapping("/rest_add")
     List<HomeController.TaskItem> addItem(@RequestParam("task") String task,
-                                          @RequestParam("deadline") String deadLine){
+                                          @RequestParam("deadline") String deadLine,
+                                          @RequestParam("memo") String memo){
         String id = UUID.randomUUID().toString().substring(0, 8);
         HomeController.TaskItem item = new HomeController.TaskItem(id, task, deadLine,"",  false);
         this.dao.add(item);

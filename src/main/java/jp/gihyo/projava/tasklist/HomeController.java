@@ -40,12 +40,12 @@ public class HomeController {
                    @RequestParam("deadline")String deadline){
         String id = UUID.randomUUID().toString().substring(0,8);
         TaskItem item = new TaskItem(id,task,deadline,"",false);
-        this.dao.add(item);
+        dao.add(item);
         return "redirect:/list";
     }
     @GetMapping("/delete")
     String delete(@RequestParam("id")String id){
-        this.dao.delete(id);
+        dao.delete(id);
         return "redirect:/list";
     }
     @GetMapping("/update")
@@ -55,7 +55,7 @@ public class HomeController {
                   @RequestParam("memo")String memo,
                   @RequestParam("done")boolean done){
         TaskItem item = new TaskItem(id, task, deadline, memo, done);
-        int i = this.dao.update(item);
+        int i = dao.update(item);
         return "redirect:/list";
     }
 }
