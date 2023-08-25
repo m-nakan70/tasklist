@@ -58,14 +58,24 @@ public class HomeController {
         int i = this.dao.update(item);
         return "redirect:/list";
     }
-}
-    /*
-    @GetMapping("/restlist")
-    String listItem(){
-        String result = taskItems.stream()
-                .map(HomeRestController.TaskItem::toString)
-                .collect(Collectors.joining(" , "));
-        return result;
+    @GetMapping("/search_month")
+    String serchMonth(Model model, @RequestParam("month") String month){
+        List<TaskItem>taskItems = this.dao.searchMonth(month);
+        model.addAttribute("taskList", taskItems);
+        return "home";
     }
+//    String searchMonth(Model model, @RequestParam("month") String month){
+//        List<TaskItem> taskItems = this.dao.searchMonth(month);
+//        model.addAttribute("taskList", taskItems);
+//        return "home";
+//    }
 }
-*/
+
+
+//    @GetMapping("/restlist")
+//    String listItem(){
+//        String result = taskItems.stream()
+//                .map(HomeRestController.TaskItem::toString)
+//                .collect(Collectors.joining(" , "));
+//        return result;
+//}

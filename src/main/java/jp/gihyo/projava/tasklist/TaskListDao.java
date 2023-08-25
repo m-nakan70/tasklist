@@ -39,14 +39,13 @@ public class TaskListDao {
                         row.get("memo").toString(),
                         (Boolean) row.get("done")
                 )).toList();
-                return list;
+        return list;
     }
 
     public int delete(String id) {
-        int num = jdbcTemplate.update("DELETE FROM " + TABLE_NAME + " WHERE id = ?",id);
+        int num = jdbcTemplate.update("DELETE FROM " + TABLE_NAME + " WHERE id = ?", id);
         return num;
     }
-
     public int update(HomeController.TaskItem taskItem) {
         int number = jdbcTemplate.update("update tasklist set task=?, deadline=?, memo=?, done=? where id = ?",
                 taskItem.task(),
@@ -57,6 +56,32 @@ public class TaskListDao {
         return number;
 
     }
-}
-    //ここまで更新
 
+    public <LIst>List<HomeController.TaskItem> searchMonth(String month){
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE deadline like '" + month + "%'";
+        List<Map<String, Object>> result = this.jdbcTemplate.queryForList(query);
+        List<HomeController.TaskItem> list = result.stream().map(
+                (Map<String, Object> row) -> new HomeController.TaskItem(
+                        row.get("id").toString(),
+                        row.get("task").toString(),
+                        row.get("deadline").toString(),
+                        row.get("memo").toString(),
+                        (boolean) row.get("done")
+                )).toList();
+        return list;
+
+//    public <LIst> List<HomeController.TaskItem> searchMonth(String month) {
+//        String query = "SELECT * FROM " + TABLE_NAME + " WHERE deadline like '" + month + "%'";
+//        List<Map<String, Object>> result = this.jdbcTemplate.queryForList(query);
+//        List<HomeController.TaskItem> list = result.stream().map(
+//                (Map<String, Object> row) -> new HomeController.TaskItem(
+//                        row.get("id").toString(),
+//                        row.get("task").toString(),
+//                        row.get("deadline").toString(),
+//                        row.get("memo").toString(),
+//                        (Boolean) row.get("done")
+//
+//                )).toList();
+//        return list;
+    }
+}
