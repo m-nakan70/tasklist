@@ -64,6 +64,13 @@ public class HomeController {
         model.addAttribute("taskList", taskItems);
         return "home";
     }
+
+    @GetMapping("/find_incomplete")
+    String findIncomplete(Model model, @RequestParam("done")boolean done){
+        List<TaskItem>taskItems = this.dao.findIncomplete(false);
+        model.addAttribute("taskList", taskItems);
+        return "home";
+    }
 //    String searchMonth(Model model, @RequestParam("month") String month){
 //        List<TaskItem> taskItems = this.dao.searchMonth(month);
 //        model.addAttribute("taskList", taskItems);

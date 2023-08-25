@@ -37,19 +37,34 @@
 <!--        <div class="tasklist">-->
 <!--            <div class="">-->
     <div>
-            <h2>現在のタスク一覧</h2>
-                <div>
-                    <form action="/search_month">
-                        <div class="row">
-                            <div class="col"><input type="month" name="month"/></div>
-                            <div class="col">
-                                <button type="submit" name="search_button" class="col btn btn-secondary btn-sm">検索</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            <table border ="1" >
-            <table class="table table-striped">
+        <h2>現在のタスク一覧</h2>
+           <div>
+               <form action="/search_month">
+                   <div class="row">
+                      <div class="col"><input type="month" name="month"/></div>
+                          <div class="col">
+                              <button type="submit" name="search_button" class="col btn btn-secondary btn-sm">検索</button>
+                          </div>
+                   </div>
+               </form>
+           </div>
+
+           <div>
+               <form action="/find_incomplete">
+                   <div class="form-check">
+                       <div class="col">
+                       <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                       <label class="form-check-label" for="flexCheckDefault">
+                           未完了
+                       </label>
+                          <button type="submit" name="serch_button" class="col btn btn-secondary btn-sm">検索</button>
+                       </div>
+                    </div>
+               </form>
+           </div>
+
+           <table border ="1" >
+           <table class="table table-striped">
                <thead>
                    <tr>
                         <th>ID</th>
@@ -111,8 +126,9 @@
                    </tr>
                 </tbody>
             </table>
+           </table>
     </div>
-    <div id="updatedialog" class="modal fade" tabindex="-1">
+   <div id="updatedialog" class="modal fade" tabindex="-1">
          <div class="modal-dialog">
              <div class="modal-content">
                  <form action="/update">

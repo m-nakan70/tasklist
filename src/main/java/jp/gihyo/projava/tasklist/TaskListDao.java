@@ -57,7 +57,7 @@ public class TaskListDao {
 
     }
 
-    public <LIst>List<HomeController.TaskItem> searchMonth(String month){
+    public <LIst>List<HomeController.TaskItem> searchMonth(String month) {
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE deadline like '" + month + "%'";
         List<Map<String, Object>> result = this.jdbcTemplate.queryForList(query);
         List<HomeController.TaskItem> list = result.stream().map(
@@ -69,6 +69,20 @@ public class TaskListDao {
                         (boolean) row.get("done")
                 )).toList();
         return list;
+    }
+    public <LIst>List<HomeController.TaskItem>findIncomplete(Boolean done) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE done '" + "false'";
+        List<Map<String, Object>> result = this.jdbcTemplate.queryForList(query);
+        List<HomeController.TaskItem> list = result.stream().map(
+                (Map<String, Object> row) -> new HomeController.TaskItem(
+                        row.get("id").toString(),
+                        row.get("task").toString(),
+                        row.get("deadline").toString(),
+                        row.get("memo").toString(),
+                        (boolean) row.get("done")
+                )).toList();
+        return list;
+    }
 
 //    public <LIst> List<HomeController.TaskItem> searchMonth(String month) {
 //        String query = "SELECT * FROM " + TABLE_NAME + " WHERE deadline like '" + month + "%'";
@@ -83,5 +97,5 @@ public class TaskListDao {
 //
 //                )).toList();
 //        return list;
-    }
 }
+
