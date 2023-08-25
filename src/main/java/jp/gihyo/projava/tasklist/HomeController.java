@@ -55,7 +55,7 @@ public class HomeController {
                   @RequestParam("memo")String memo,
                   @RequestParam("done")boolean done){
         TaskItem item = new TaskItem(id, task, deadline, memo, done);
-        int i = dao.update(item);
+        int i = this.dao.update(item);
         return "redirect:/list";
     }
 }
