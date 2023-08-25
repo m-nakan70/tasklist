@@ -78,6 +78,12 @@
                         <td>
                             <button type="submit" name="update_button" onclick="copyToDialog(this.parentElement.parentElement);" data-bs-toggle="modal" data-bs-target="#updatedialog" class="btn btn-primary">更新</button>
                         </td>
+                       <td>
+                           <form action="/delete">
+                               <button type="submit" name="delete_button" class="col btn btn-secondary btn-sm">削除</button>
+                               <input type="hidden" name="id" th:value="${task.id}" />
+                           </form>
+                       </td>
 
 <!--                <tbody>-->
 <!--                <tr th:each="task : ${taskList}">-->
@@ -91,12 +97,12 @@
 <!--                    </td>-->
 <!--                    <td width="50px">-->
 
-                        <td>
-                            <form action="/delete">
-                                <button type="submit" name="delete_button" class="col btn btn-secondary btn-sm">削除</button>
-                                <input type="hidden" name="id" th:value="${task.id}" />
-                            </form>
-                        </td>
+<!--                       <td>-->
+<!--                           <form action="/delete">-->
+<!--                               <button type="submit" name="delete_button" class="col btn btn-secondary btn-sm">削除</button>-->
+<!--                               <input type="hidden" name="id" th:value="${task.id}" />-->
+<!--                           </form>-->
+<!--                       </td>-->
 <!--                        <form action = "/delete">-->
 <!--                            <button type = "submit" id="delete_button">削除</button>-->
 <!--                            <input type="hidden" name="id" th:value="${task.id}" />-->
@@ -224,10 +230,14 @@
                       </td>
                       <td>
                       </td>
-                         <form action="/delete">
+<!--                  <form action="/delete">         -->
+                      <td>
+                          <form action="/delete">
                              <button type="submit" name="delete_button" class="col btn btn-secondary btn-sm" hidden>削除</button>
                              <input type="hidden" name="id" />
-                         </form>
+                          </form>
+                      </td>
+<!--                         -->
                   </tr>
                </tbody>
            </table>

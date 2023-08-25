@@ -43,12 +43,12 @@ public class TaskListDao {
     }
 
     public int delete(String id) {
-        int num = jdbcTemplate.update("DELETE FROM " + TABLE_NAME + " WHERE id= ?", id);
+        int num = jdbcTemplate.update("DELETE FROM " + TABLE_NAME + " WHERE id = ?",id);
         return num;
     }
 
     public int update(HomeController.TaskItem taskItem) {
-        int number = jdbcTemplate.update("update tasklist set task=?, deadline=?, memo= ?,　done=?, where id=?",
+        int number = jdbcTemplate.update("update tasklist set task=?, deadline=?, memo=?, done=? where id = ?",
                 taskItem.task(),
                 taskItem.deadline(),
                 taskItem.memo(),

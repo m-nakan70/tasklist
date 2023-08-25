@@ -24,8 +24,8 @@ public class HomeRestController {//データを返す方式、スマホゲーム
                                           @RequestParam("memo") String memo){
         String id = UUID.randomUUID().toString().substring(0, 8);
         HomeController.TaskItem item = new HomeController.TaskItem(id, task, deadLine,"",  false);
-        this.dao.add(item);
-        return this.dao.findAll();
+        dao.add(item);
+        return dao.findAll();
     }
 }
 
