@@ -59,19 +59,27 @@ public class HomeController {
         return "redirect:/list";
     }
     @GetMapping("/search_month")
-    String serchMonth(Model model, @RequestParam("month") String month){
-        List<TaskItem>taskItems = this.dao.searchMonth(month);
+    String serchMonth(Model model,
+                      @RequestParam("month") String month,
+                      @RequestParam(name = "check",required = false) String check
+    ){
+        List<TaskItem>taskItems = this.dao.searchMonth(month,check);
         model.addAttribute("taskList", taskItems);
         return "home";
     }
-
-    @GetMapping("/find_incomplete")
-    String findIncomplete(Model model, @RequestParam("done")String done){
-        List<TaskItem>taskItems = this.dao.findIncomplete(done);
-        model.addAttribute("taskList", taskItems);
-        return "home";
-    }
-//    String searchMonth(Model model, @RequestParam("month") String month){
+//    @GetMapping("/search_month")
+//    String serchMonth(Model model, @RequestParam("check") String check){
+//        List<TaskItem>taskItems = this.dao.searchMonth(check);
+//        model.addAttribute("taskList", taskItems);
+//        return "home";
+//    }
+//    @GetMapping("/find_incomplete")
+//    String findIncomplete(Model model, @RequestParam("done")String done){
+//        List<TaskItem>taskItems = this.dao.findIncomplete(done);
+//        model.addAttribute("taskList", taskItems);
+//        return "home";
+//    }
+////    String searchMonth(Model model, @RequestParam("month") String month){
 //        List<TaskItem> taskItems = this.dao.searchMonth(month);
 //        model.addAttribute("taskList", taskItems);
 //        return "home";
