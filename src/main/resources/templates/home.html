@@ -37,11 +37,11 @@
 <!--        <div class="tasklist">-->
 <!--            <div class="">-->
     <div>
-        <h2>現在のタスク一覧</h2>
-        <div>
-            <form action="/search_month">
-                <div class="row">
-                    <div class="col"><input type="month" name="month"/></div>
+    <h2>現在のタスク一覧</h2>
+    <div>
+        <form action="/search_month">
+            <div class="row">
+                <div class="col"><input type="month" name="month"/></div>
                     <!--                       <div class="form-check">-->
 <!--                    <div class="col">-->
                     <div class="form-check">
@@ -55,9 +55,23 @@
                                                    </label>
                                                    <button type="submit" name="serch_button" class="col btn btn-secondary btn-sm">検索</button>-->
                         <!--                          <div class="col"><input type="incomplete" name="incomplete"/></div>-->
+                    <div class="form-check">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                          <label class="form-check-label" for="flexRadioDefault1">前方一致</label>
+                    </div>
+                    <div class="form-check">
+                          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                          <label class="form-check-label" for="flexRadioDefault2">部分一致</label>
+                    </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                    <label class="form-check-label" for="flexRadioDefault3">後方一致</label>
                 </div>
-                <button type="submit" name="search_button" class="col btn btn-secondary btn-sm">検索</button>
-            </form>
+                <label class="form-label">検索条件</label>
+                <input name="parameter" class="form-control"　type="text" id="new_parameter" />
+                </div>
+            <button type="submit" name="search_button" class="col btn btn-secondary btn-sm">検索</button>
+        </form>
     </div>
 
 
