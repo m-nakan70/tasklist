@@ -70,8 +70,8 @@ public class TaskListDao {
                 )).toList();
         return list;
     }
-    public <LIst>List<HomeController.TaskItem>findIncomplete(Boolean done) {
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE done '" + "false'";
+    public <LIst>List<HomeController.TaskItem>findIncomplete(String done) {
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE done =" + done;
         List<Map<String, Object>> result = this.jdbcTemplate.queryForList(query);
         List<HomeController.TaskItem> list = result.stream().map(
                 (Map<String, Object> row) -> new HomeController.TaskItem(

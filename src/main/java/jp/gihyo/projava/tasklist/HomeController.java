@@ -66,8 +66,8 @@ public class HomeController {
     }
 
     @GetMapping("/find_incomplete")
-    String findIncomplete(Model model, @RequestParam("done")boolean done){
-        List<TaskItem>taskItems = this.dao.findIncomplete(false);
+    String findIncomplete(Model model, @RequestParam("done")String done){
+        List<TaskItem>taskItems = this.dao.findIncomplete(done);
         model.addAttribute("taskList", taskItems);
         return "home";
     }
